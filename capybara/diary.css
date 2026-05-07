@@ -1,0 +1,134 @@
+/* ── 日记页 v3.0 ── */
+.page-hero {
+  position:relative; z-index:1;
+  padding: 130px 0 70px; overflow:hidden;
+  background: linear-gradient(160deg, var(--bg) 0%, var(--bg-2) 100%);
+}
+.page-hero-desc { color:var(--text-2); font-size:1rem; line-height:1.7; margin-top:var(--sp-3); }
+
+.write-section { position:relative; z-index:1; padding: 0 0 var(--sp-8); }
+.write-card {
+  padding: var(--sp-6);
+  background: rgba(255,255,255,0.75);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1.5px solid var(--border);
+  border-radius: var(--r-2xl);
+  box-shadow: var(--shadow-md);
+  max-width: 700px; margin: 0 auto;
+}
+.write-header {
+  display:flex; justify-content:space-between; align-items:center;
+  margin-bottom: var(--sp-5);
+}
+.write-title { font-size:0.95rem; font-weight:800; color:var(--brown-500); }
+.write-date  { font-size:0.78rem; color:var(--text-4); font-weight:700; }
+
+.mood-row { display:flex; align-items:center; gap:var(--sp-4); margin-bottom:var(--sp-5); flex-wrap:wrap; }
+.mood-label-text { font-size:0.82rem; font-weight:700; color:var(--text-3); }
+.mood-picker { display:flex; gap:var(--sp-2); }
+.mood-opt {
+  font-size:1.5rem; background:none;
+  border: 2px solid transparent; border-radius:var(--r-md);
+  padding: 3px 7px; cursor:pointer; line-height:1;
+  transition: transform var(--t-fast) var(--ease-spring), border-color var(--t-fast), background var(--t-fast);
+}
+.mood-opt:hover { transform:scale(1.2); }
+.mood-opt.selected { border-color:var(--brown-200); background:var(--brown-50); transform:scale(1.15); }
+
+.diary-textarea {
+  width:100%; background:var(--bg-2);
+  border: 1.5px solid var(--border); border-radius:var(--r-lg);
+  padding: var(--sp-4); color:var(--text-1);
+  font-family:'Nunito',sans-serif; font-size:0.92rem; line-height:1.7;
+  resize:vertical; min-height:110px; outline:none;
+  transition: border-color var(--t-base);
+}
+.diary-textarea:focus { border-color:var(--brown-300); background:var(--surface); }
+.diary-textarea::placeholder { color:var(--text-4); }
+
+.write-footer { display:flex; justify-content:space-between; align-items:center; margin-top:var(--sp-3); }
+.char-count { font-size:0.78rem; color:var(--text-4); font-weight:700; }
+
+/* 时间轴 */
+.timeline-section { position:relative; z-index:1; padding:var(--sp-8) 0 var(--sp-9); background:var(--bg-2); }
+.timeline {
+  position:relative; max-width:700px; margin:0 auto; padding-left:36px;
+}
+.timeline::before {
+  content:''; position:absolute; left:10px; top:0; bottom:0;
+  width:2px;
+  background: linear-gradient(180deg, var(--brown-200), transparent);
+}
+
+.timeline-item {
+  position:relative; margin-bottom:var(--sp-6);
+  opacity:0; transform:translateX(-16px);
+  transition: opacity 0.45s var(--ease-out), transform 0.45s var(--ease-out);
+}
+.timeline-item.visible { opacity:1; transform:translateX(0); }
+
+.timeline-dot {
+  position:absolute; left:-30px; top:18px;
+  width:12px; height:12px; border-radius:50%;
+  background:var(--brown-300); border:2px solid var(--surface);
+  box-shadow: 0 0 0 3px var(--brown-100);
+  transition: box-shadow var(--t-base);
+}
+.timeline-item:hover .timeline-dot { box-shadow: 0 0 0 5px var(--brown-100), var(--shadow-sm); }
+
+.diary-card {
+  background:var(--surface); border:1.5px solid var(--border);
+  border-radius:var(--r-xl); padding:var(--sp-5); cursor:pointer;
+  box-shadow:var(--shadow-xs);
+  transition: border-color var(--t-base), transform var(--t-base) var(--ease-spring), box-shadow var(--t-base);
+}
+.diary-card:hover { border-color:var(--border-2); transform:translateX(3px); box-shadow:var(--shadow-md); }
+
+.diary-meta { display:flex; align-items:center; gap:var(--sp-2); margin-bottom:var(--sp-3); }
+.diary-mood-badge { font-size:1.3rem; }
+.diary-date-text { font-size:0.78rem; color:var(--text-4); font-weight:700; }
+.diary-title-text { font-size:1rem; font-weight:900; color:var(--brown-500); margin-bottom:var(--sp-2); }
+.diary-body-text {
+  font-size:0.87rem; color:var(--text-2); line-height:1.7;
+  display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical; overflow:hidden;
+}
+.diary-card.expanded .diary-body-text { -webkit-line-clamp:unset; }
+.diary-tags-row { display:flex; gap:var(--sp-2); flex-wrap:wrap; margin-top:var(--sp-3); }
+.diary-tag {
+  padding:2px 9px; background:var(--brown-50);
+  border:1px solid var(--brown-100); border-radius:var(--r-full);
+  font-size:0.72rem; font-weight:700; color:var(--brown-500);
+}
+.diary-user-badge {
+  padding:2px 9px; background:#f5f0ff;
+  border:1px solid #d8c8f0; border-radius:var(--r-full);
+  font-size:0.72rem; font-weight:700; color:#7050b0;
+}
+
+/* 删除按钮 */
+.diary-del-btn {
+  margin-left: auto;
+  background: none; border: none;
+  font-size: 0.9rem; cursor: pointer; padding: 2px 4px;
+  border-radius: var(--r-sm); opacity: 0.4;
+  transition: opacity var(--t-fast), background var(--t-fast);
+}
+.diary-del-btn:hover { opacity: 1; background: rgba(240,80,80,0.08); }
+
+/* 筛选栏 */
+.diary-filter {
+  display: flex; gap: var(--sp-2); flex-wrap: wrap;
+  margin-bottom: var(--sp-5); max-width: 700px; margin-left: auto; margin-right: auto;
+}
+.filter-btn {
+  padding: 6px 14px; border-radius: var(--r-full);
+  background: var(--surface); border: 1.5px solid var(--border);
+  font-family: 'Nunito', sans-serif; font-size: 0.8rem; font-weight: 700;
+  color: var(--text-2); cursor: pointer;
+  transition: background var(--t-fast), border-color var(--t-fast), color var(--t-fast), transform var(--t-fast) var(--ease-spring);
+}
+.filter-btn:hover { transform: translateY(-1px); border-color: var(--border-2); }
+.filter-btn.active {
+  background: var(--brown-50); border-color: var(--brown-200); color: var(--brown-500);
+}

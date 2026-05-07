@@ -1,0 +1,544 @@
+/* ============================================
+   首页样式 v3.0 · 浅色暖系 · 动漫巴猪
+   ============================================ */
+
+/* ── Hero ── */
+.hero {
+  position: relative; min-height: 100vh;
+  display: flex; flex-direction: column; justify-content: center;
+  overflow: hidden; padding-top: 60px;
+  background:
+    radial-gradient(ellipse at 20% 50%, rgba(232,184,64,0.07) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 20%, rgba(244,168,130,0.08) 0%, transparent 45%),
+    radial-gradient(ellipse at 60% 90%, rgba(142,196,160,0.06) 0%, transparent 40%),
+    linear-gradient(160deg, var(--bg) 0%, var(--bg-2) 55%, var(--bg-3) 100%);
+}
+.hero-inner {
+  display: grid; grid-template-columns: 1fr 1fr;
+  align-items: center; gap: 40px;
+  padding: var(--sp-9) 0 var(--sp-8);
+}
+@media (max-width:900px) {
+  .hero-inner { grid-template-columns: 1fr; text-align:center; gap:32px; padding-top:var(--sp-7); }
+  .hero-actions { justify-content:center; }
+  .mood-widget { max-width:320px; margin:0 auto; }
+  .hero-quick  { justify-content:center; }
+}
+
+/* 标题字号自适应，防止截断 */
+.hero-text .heading-xl {
+  font-size: clamp(1.9rem, 3.5vw, 4rem);
+}
+.hero-text .gradient-text {
+  font-size: clamp(2.4rem, 4.5vw, 5rem);
+  display: block;
+}
+
+.hero-desc {
+  font-size: 1.05rem; color: var(--text-2); line-height: 1.75;
+  margin: var(--sp-4) 0 var(--sp-6);
+}
+.hero-actions { display:flex; gap:var(--sp-3); flex-wrap:wrap; }
+
+.pet-msg {
+  margin-top: var(--sp-4); min-height: 26px;
+  font-size: 0.95rem; font-weight: 700; color: var(--brown-500);
+  opacity: 0; transform: translateY(5px);
+  transition: opacity 0.28s var(--ease-out), transform 0.28s var(--ease-out);
+}
+.pet-msg.show { opacity:1; transform:translateY(0); }
+
+/* 心情条 */
+.mood-widget {
+  margin-top: var(--sp-6);
+  padding: var(--sp-4) var(--sp-5);
+  background: rgba(255,255,255,0.55);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(200,160,110,0.22);
+  border-radius: var(--r-lg);
+  box-shadow: var(--shadow-xs);
+}
+.mood-label {
+  display:flex; justify-content:space-between;
+  font-size:0.8rem; font-weight:700; color:var(--text-3);
+  margin-bottom: var(--sp-2);
+}
+.mood-track {
+  position:relative; height:7px;
+  background: var(--bg-3); border-radius:var(--r-full); overflow:visible;
+}
+.mood-fill {
+  height:100%;
+  background: linear-gradient(90deg, var(--brown-300), var(--peach));
+  border-radius:var(--r-full);
+  transition: width 0.6s var(--ease-out), background 0.4s var(--ease-out), box-shadow 0.3s;
+  position:relative;
+}
+.mood-fill::after {
+  content:''; position:absolute; right:-1px; top:50%;
+  transform:translateY(-50%);
+  width:13px; height:13px; background:white;
+  border-radius:50%;
+  box-shadow: 0 0 0 2px var(--peach), var(--shadow-xs);
+  transition: box-shadow 0.3s;
+}
+/* 心情表情弹跳 */
+#moodEmoji {
+  display:inline-block;
+  transition: transform 0.3s var(--ease-spring);
+}
+
+/* ══════════════════════════════════════════
+   卡皮巴拉 SVG · 横卧比例 · 精细动画
+   ══════════════════════════════════════════ */
+.hero-capy-wrap { display:flex; justify-content:center; align-items:center; }
+
+.capy-stage {
+  position:relative; width:300px; height:300px;
+  display:flex; align-items:center; justify-content:center;
+}
+
+/* 地面阴影 */
+.capy-ground {
+  position:absolute; bottom:4px; left:50%;
+  transform:translateX(-50%);
+  width:200px; height:16px;
+  background: radial-gradient(ellipse, rgba(140,70,20,0.16) 0%, transparent 70%);
+  border-radius:50%;
+  animation: shadowBreath 4s ease-in-out infinite;
+}
+@keyframes shadowBreath {
+  0%,100%{ transform:translateX(-50%) scaleX(1); }
+  50%    { transform:translateX(-50%) scaleX(0.85); }
+}
+
+/* 光晕（圆形） */
+.capy-halo {
+  position:absolute; width:280px; height:280px; border-radius:50%;
+  background: radial-gradient(circle,
+    rgba(220,160,80,0.16) 0%,
+    rgba(220,160,80,0.06) 55%,
+    transparent 70%);
+  animation: haloPulse 4s ease-in-out infinite;
+}
+@keyframes haloPulse {
+  0%,100%{ transform:scale(1);    opacity:0.7; }
+  50%    { transform:scale(1.08); opacity:1; }
+}
+
+/* 巴猪容器 */
+.capy3d {
+  position:relative; cursor:pointer;
+  will-change: transform;
+  animation: capyFloat 4.5s ease-in-out infinite;
+}
+@keyframes capyFloat {
+  0%,100%{ transform:translateY(0)    rotate(0deg); }
+  50%    { transform:translateY(-9px) rotate(0.5deg); }
+}
+.capy3d:hover {
+  animation-play-state: paused;
+  transform: scale(1.05) translateY(-7px) !important;
+  transition: transform 0.3s var(--ease-spring);
+}
+.capy3d.bounce {
+  animation: capyBounce 0.55s var(--ease-spring) forwards;
+}
+@keyframes capyBounce {
+  0%  { transform:scale(1)    translateY(0)     rotate(0deg); }
+  22% { transform:scale(1.08) translateY(-14px) rotate(-2.5deg); }
+  52% { transform:scale(0.95) translateY(3px)   rotate(1.5deg); }
+  78% { transform:scale(1.03) translateY(-4px)  rotate(-0.8deg); }
+  100%{ transform:scale(1)    translateY(0)     rotate(0deg); }
+}
+.capy3d.happy {
+  animation: capyHappy 0.65s var(--ease-spring) forwards;
+}
+@keyframes capyHappy {
+  0%  { transform:scale(1)    rotate(0deg); }
+  16% { transform:scale(1.10) rotate(-4deg); }
+  34% { transform:scale(1.08) rotate(4deg); }
+  52% { transform:scale(1.09) rotate(-2.5deg); }
+  72% { transform:scale(1.04) rotate(1.5deg); }
+  100%{ transform:scale(1)    rotate(0deg); }
+}
+/* 晃头：左右摇摆，比 happy 更夸张 */
+.capy3d.shake {
+  animation: capyShake 0.5s var(--ease-spring) forwards;
+}
+@keyframes capyShake {
+  0%  { transform:rotate(0deg)   scale(1); }
+  15% { transform:rotate(-8deg)  scale(1.06); }
+  30% { transform:rotate(8deg)   scale(1.06); }
+  45% { transform:rotate(-6deg)  scale(1.04); }
+  60% { transform:rotate(6deg)   scale(1.04); }
+  75% { transform:rotate(-3deg)  scale(1.02); }
+  90% { transform:rotate(2deg)   scale(1.01); }
+  100%{ transform:rotate(0deg)   scale(1); }
+}
+
+/* SVG 本体（正方形头像） */
+.capy-svg {
+  width: 260px; height: 260px;
+  overflow: visible;
+  filter:
+    drop-shadow(0 20px 40px rgba(120,60,20,0.22))
+    drop-shadow(0 6px 14px rgba(120,60,20,0.14));
+}
+
+/* 眨眼 */
+.eye-group   { animation: blinkAnim 5.5s ease-in-out infinite; }
+.eye-group-r { animation: blinkAnim 5.5s ease-in-out infinite; animation-delay:0.12s; }
+@keyframes blinkAnim {
+  0%,40%,54%,100%{ transform:scaleY(1);    transform-origin:center; }
+  47%            { transform:scaleY(0.08); transform-origin:center; }
+}
+
+/* 耳朵偶尔抖动 */
+.ear-l {
+  animation: earWigL 7s ease-in-out infinite;
+  transform-origin: 44px 82px;
+}
+.ear-r {
+  animation: earWigR 7s ease-in-out infinite;
+  transform-origin: 196px 82px;
+  animation-delay: 0.4s;
+}
+@keyframes earWigL {
+  0%,78%,100%{ transform:rotate(0deg); }
+  82%{ transform:rotate(-8deg); }
+  88%{ transform:rotate(5deg); }
+  94%{ transform:rotate(-3deg); }
+}
+@keyframes earWigR {
+  0%,78%,100%{ transform:rotate(0deg); }
+  82%{ transform:rotate(8deg); }
+  88%{ transform:rotate(-5deg); }
+  94%{ transform:rotate(3deg); }
+}
+
+/* 腮红呼吸 */
+.cheek { animation: cheekBreath 3.5s ease-in-out infinite; }
+@keyframes cheekBreath {
+  0%,100%{ opacity:0.35; } 50%{ opacity:0.55; }
+}
+
+/* 道具 */
+.c-item {
+  position:absolute; top:-18px; left:50%;
+  transform:translateX(-50%);
+  font-size:2rem; pointer-events:none;
+  filter:drop-shadow(0 3px 6px rgba(0,0,0,0.15));
+  animation:itemBob 2.2s ease-in-out infinite;
+  transition:all 0.3s var(--ease-spring);
+}
+@keyframes itemBob {
+  0%,100%{ transform:translateX(-50%) translateY(0); }
+  50%    { transform:translateX(-50%) translateY(-5px); }
+}
+
+/* 爱心粒子遮罩 */
+.capy-overlay { position:absolute; inset:0; pointer-events:none; }
+
+/* 爱心粒子 */
+.heart-particle {
+  position:absolute; pointer-events:none;
+  animation:heartFloat 1s var(--ease-out) forwards;
+}
+@keyframes heartFloat {
+  0%  { opacity:1; transform:translateY(0)     scale(0.5); }
+  30% { opacity:1; transform:translateY(-22px) scale(1.1); }
+  100%{ opacity:0; transform:translateY(-75px) scale(0.8); }
+}
+
+/* 水波纹 */
+.ripple-container { position:absolute; inset:0; pointer-events:none; }
+.ripple {
+  position:absolute; border-radius:50%;
+  border:2px solid rgba(168,96,48,0.3);
+  animation:rippleOut 0.9s var(--ease-out) forwards;
+}
+@keyframes rippleOut {
+  from{ transform:scale(0); opacity:0.9; }
+  to  { transform:scale(4); opacity:0; }
+}
+
+/* 滚动提示 */
+.scroll-hint {
+  position:absolute; bottom:28px; left:50%; transform:translateX(-50%);
+  display:flex; flex-direction:column; align-items:center; gap:6px;
+  color:var(--text-4); font-size:0.7rem; font-weight:700;
+  letter-spacing:0.08em; text-transform:uppercase;
+  animation:scrollBob 2.2s ease-in-out infinite;
+}
+.scroll-dot { width:5px; height:5px; background:var(--brown-300); border-radius:50%; }
+@keyframes scrollBob {
+  0%,100%{ opacity:0.5; transform:translateX(-50%) translateY(0); }
+  50%    { opacity:1;   transform:translateX(-50%) translateY(5px); }
+}
+
+/* ── 快捷跳转栏 ── */
+.hero-quick {
+  margin-top:var(--sp-5);
+  display:flex; gap:var(--sp-3); flex-wrap:wrap;
+}
+.quick-item {
+  display:flex; align-items:center; gap:var(--sp-2);
+  padding:8px 14px; border-radius:var(--r-full);
+  background: rgba(255,255,255,0.55);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border:1.5px solid rgba(200,160,110,0.20);
+  text-decoration:none; color:var(--text-2);
+  font-size:0.82rem; font-weight:700;
+  box-shadow: 0 2px 8px rgba(160,96,48,0.08);
+  transition:transform var(--t-fast) var(--ease-spring),
+             box-shadow var(--t-fast), border-color var(--t-fast),
+             background var(--t-fast);
+}
+.quick-item:hover {
+  transform:translateY(-2px);
+  background: rgba(255,255,255,0.75);
+  box-shadow:var(--shadow-sm);
+  border-color:var(--border-2);
+  color:var(--brown-500);
+}
+.quick-icon { font-size:1rem; }
+.quick-coins { font-size:0.78rem; color:#a07010; font-weight:800; margin-left:2px; }
+.quick-tag {
+  font-size:0.7rem; font-weight:800; color:var(--sage);
+  background:rgba(142,196,160,0.12); border-radius:var(--r-full);
+  padding:1px 7px; margin-left:2px;
+}
+
+/* ── 数据展示 ── */
+.stats-section {
+  position:relative; z-index:1;
+  padding: var(--sp-6) 0;
+  background: var(--surface);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+.stats-grid {
+  display:grid; grid-template-columns:repeat(4,1fr);
+  gap:1px; background:var(--border);
+  border-radius:var(--r-xl); overflow:hidden;
+  box-shadow: var(--shadow-sm);
+}
+@media(max-width:600px){.stats-grid{grid-template-columns:repeat(2,1fr)}}
+.stat-item {
+  background:var(--surface); padding:var(--sp-5) var(--sp-4);
+  text-align:center; transition:background var(--t-base);
+}
+.stat-item:hover { background:var(--bg-2); }
+.stat-num {
+  font-size:2.4rem; font-weight:900; line-height:1;
+  color: var(--brown-500);
+}
+.stat-unit { font-size:0.78rem; color:var(--text-3); font-weight:700; margin-top:2px; }
+.stat-label { font-size:0.75rem; color:var(--text-3); margin-top:var(--sp-1); font-weight:700; }
+
+/* ── 页面入口 ── */
+.portals-section { position:relative; z-index:1; padding:var(--sp-7) 0; background:var(--bg-2); }
+.section-header { margin-bottom:0; }
+.section-desc { color:var(--text-2); margin-top:var(--sp-2); font-size:0.95rem; }
+
+.portals-grid {
+  display:grid; grid-template-columns:repeat(2,1fr); gap:var(--sp-3);
+  margin-top:var(--sp-6);
+}
+@media(max-width:600px){.portals-grid{grid-template-columns:1fr}}
+
+.portal-card {
+  position:relative; display:flex; align-items:center; gap:var(--sp-5);
+  padding: var(--sp-6); border-radius:var(--r-xl);
+  background:var(--surface); border:1.5px solid var(--border);
+  text-decoration:none; color:var(--text-1);
+  box-shadow: var(--shadow-sm);
+  transition: transform var(--t-base) var(--ease-spring),
+              box-shadow var(--t-base) var(--ease-out),
+              border-color var(--t-base);
+  overflow:hidden;
+}
+.portal-card:hover {
+  transform:translateY(-5px);
+  box-shadow: var(--shadow-lg);
+  border-color: var(--border-2);
+}
+.portal-card[data-color="brown"]:hover { border-color:rgba(168,96,48,0.3); }
+.portal-card[data-color="gold"]:hover  { border-color:rgba(232,184,64,0.35); }
+.portal-card[data-color="rose"]:hover  { border-color:rgba(240,160,176,0.4); }
+.portal-card[data-color="sage"]:hover  { border-color:rgba(142,196,160,0.4); }
+
+.portal-bg {
+  position:absolute; inset:0; opacity:0;
+  transition:opacity var(--t-base);
+}
+.portal-card[data-color="brown"] .portal-bg { background:radial-gradient(circle at 80% 50%, rgba(168,96,48,0.05), transparent 60%); }
+.portal-card[data-color="gold"]  .portal-bg { background:radial-gradient(circle at 80% 50%, rgba(232,184,64,0.06), transparent 60%); }
+.portal-card[data-color="rose"]  .portal-bg { background:radial-gradient(circle at 80% 50%, rgba(240,160,176,0.06), transparent 60%); }
+.portal-card[data-color="sage"]  .portal-bg { background:radial-gradient(circle at 80% 50%, rgba(142,196,160,0.06), transparent 60%); }
+.portal-card:hover .portal-bg { opacity:1; }
+
+.portal-icon { font-size:2.4rem; flex-shrink:0; }
+.portal-content h3 { font-size:0.95rem; font-weight:900; margin-bottom:4px; color:var(--text-1); }
+.portal-content p  { font-size:0.8rem; color:var(--text-2); line-height:1.5; margin-bottom:6px; }
+.portal-tag {
+  display:inline-block; font-size:0.7rem; font-weight:800;
+  color:var(--brown-500); background:var(--brown-50);
+  border:1px solid var(--brown-100); border-radius:var(--r-full);
+  padding:2px 8px;
+}
+.portal-arrow {
+  margin-left:auto; font-size:1.1rem; color:var(--text-4); flex-shrink:0;
+  transition:transform var(--t-base) var(--ease-spring), color var(--t-base);
+}
+.portal-card:hover .portal-arrow { transform:translateX(5px); color:var(--brown-400); }
+
+/* ── 冷知识 ── */
+.facts-section { position:relative; z-index:1; padding:var(--sp-7) 0; background:var(--bg); }
+.facts-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:var(--sp-3); margin-top:var(--sp-6); }
+.fact-card {
+  padding:var(--sp-5) var(--sp-4);
+  background:var(--surface); border:1.5px solid var(--border);
+  border-radius:var(--r-xl); cursor:pointer;
+  box-shadow:var(--shadow-xs);
+  border-left: 3px solid var(--brown-200);
+  transition: transform var(--t-base) var(--ease-spring),
+              box-shadow var(--t-base), border-color var(--t-base);
+}
+.fact-card:hover { transform:translateY(-4px); box-shadow:var(--shadow-md); border-left-color:var(--brown-400); }
+.fact-icon { font-size:1.7rem; margin-bottom:var(--sp-2); }
+.fact-title { font-size:0.88rem; font-weight:900; color:var(--brown-500); margin-bottom:var(--sp-1); }
+.fact-text  { font-size:0.8rem; color:var(--text-2); line-height:1.6; }
+
+/* ── 喂食游戏（重构） ── */
+.feed-section { position:relative; z-index:1; padding:var(--sp-7) 0; background:var(--bg-2); }
+.feed-game {
+  display:grid; grid-template-columns:1fr 1fr; gap:var(--sp-7);
+  align-items:center;
+  padding:var(--sp-8) var(--sp-7);
+  background: linear-gradient(145deg, #fffaf3, #fdf3e3, #faf0e0);
+  border:1.5px solid rgba(200,160,110,0.22);
+  border-radius:var(--r-2xl); box-shadow:var(--shadow-md);
+}
+@media(max-width:700px){
+  .feed-game{
+    grid-template-columns:1fr;
+    padding:var(--sp-6) var(--sp-5);
+    gap:var(--sp-5);
+  }
+  .feed-food-side { order:-1; }
+}
+
+.feed-capy-side { display:flex; flex-direction:column; align-items:center; gap:var(--sp-3); }
+.feed-face {
+  font-size:5rem; cursor:default;
+  filter:drop-shadow(0 6px 12px rgba(0,0,0,0.08));
+  transition:transform 0.25s var(--ease-spring);
+}
+.feed-face.pop { animation:facePop 0.4s var(--ease-spring); }
+@keyframes facePop { 0%,100%{transform:scale(1)} 45%{transform:scale(1.28)} }
+
+.feed-bubble {
+  min-height:28px; font-size:0.88rem; font-weight:700;
+  color:var(--brown-500); background:var(--surface);
+  border:1px solid var(--border); border-radius:var(--r-lg);
+  padding:6px 14px; opacity:0;
+  transition:opacity 0.25s var(--ease-out);
+  text-align:center;
+}
+.feed-bubble.show { opacity:1; }
+
+.feed-count { font-size:0.85rem; font-weight:700; color:var(--text-3); }
+
+.feed-progress-wrap { width:100%; display:flex; align-items:center; gap:var(--sp-2); }
+.feed-progress-bar {
+  flex:1; height:8px; background:var(--bg-3);
+  border-radius:var(--r-full); overflow:hidden;
+}
+.feed-progress-fill {
+  height:100%;
+  background:linear-gradient(90deg, var(--sage), var(--brown-300));
+  border-radius:var(--r-full);
+  transition:width 0.5s var(--ease-out);
+}
+.feed-progress-label { font-size:0.72rem; font-weight:700; color:var(--text-4); white-space:nowrap; }
+
+.feed-food-side { display:flex; flex-direction:column; align-items:center; gap:var(--sp-4); }
+.food-bar { display:flex; gap:var(--sp-3); flex-wrap:wrap; justify-content:center; }
+.food-btn {
+  font-size:2rem;
+  background:var(--surface); border:1.5px solid var(--border);
+  border-radius:var(--r-lg); padding:var(--sp-3) var(--sp-4);
+  cursor:pointer;
+  transition: transform var(--t-fast) var(--ease-spring),
+              box-shadow var(--t-fast), border-color var(--t-fast);
+  user-select:none; position:relative;
+}
+.food-btn:hover { transform:scale(1.18) translateY(-4px); border-color:var(--border-2); box-shadow:var(--shadow-md); }
+.food-btn:active { transform:scale(0.88); transition-duration:60ms; }
+.feed-tip { font-size:0.78rem; color:var(--text-4); font-weight:700; }
+
+/* ── 相册 ── */
+.gallery-section { position:relative; z-index:1; padding:var(--sp-7) 0; background:var(--bg); }
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--sp-3);
+  margin-top: var(--sp-6);
+}
+@media(max-width: 700px) {
+  .gallery-grid { grid-template-columns: repeat(2, 1fr); }
+}
+.gallery-card {
+  position:relative; background:var(--surface);
+  border:1.5px solid var(--border); border-radius:var(--r-xl);
+  padding:var(--sp-6) var(--sp-4); text-align:center;
+  cursor:pointer; box-shadow:var(--shadow-xs);
+  transition: transform var(--t-base) var(--ease-spring),
+              box-shadow var(--t-base), border-color var(--t-base);
+}
+.gallery-card:hover { transform:scale(1.05) translateY(-3px); box-shadow:var(--shadow-md); border-color:var(--border-2); }
+.gallery-emoji { font-size:3.2rem; display:block; margin-bottom:var(--sp-2); }
+.gallery-caption { font-size:0.78rem; font-weight:700; color:var(--text-2); }
+.gallery-likes { margin-top:var(--sp-2); font-size:0.78rem; color:var(--rose); font-weight:700; }
+.like-btn {
+  position:absolute; top:8px; right:8px;
+  background:none; border:none; font-size:1rem;
+  cursor:pointer; padding:4px;
+  transition:transform var(--t-fast) var(--ease-spring);
+}
+.like-btn:hover { transform:scale(1.4); }
+.like-btn.liked { animation:heartPop 0.4s var(--ease-spring); }
+@keyframes heartPop { 0%,100%{transform:scale(1)} 50%{transform:scale(1.65)} }
+
+/* ── portal-card 左侧彩色边条 ── */
+.portal-card::after {
+  content: '';
+  position: absolute;
+  left: 0; top: 16px; bottom: 16px;
+  width: 3px; border-radius: 0 3px 3px 0;
+  background: var(--brown-200);
+  transition: background var(--t-base), top var(--t-base), bottom var(--t-base);
+}
+.portal-card[data-color="brown"]::after { background: var(--brown-300); }
+.portal-card[data-color="gold"]::after  { background: var(--gold); }
+.portal-card[data-color="rose"]::after  { background: var(--rose); }
+.portal-card[data-color="sage"]::after  { background: var(--sage); }
+.portal-card:hover::after { top: 8px; bottom: 8px; }
+
+/* ── fact-card 左侧彩色边条 ── */
+.fact-card {
+  border-left: 3px solid var(--brown-200);
+}
+.fact-card:hover {
+  border-left-color: var(--brown-400);
+}
+
+/* ── feed-game 更温暖的渐变背景 ── */
+.feed-game {
+  background: linear-gradient(145deg, #fffaf3, #fdf3e3, #faf0e0);
+  border-color: rgba(200,160,110,0.22);
+}

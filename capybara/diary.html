@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="巴猪日记 - 记录巴猪每天的佛系生活，替巴猪写下今天的故事" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📔</text></svg>" />
+  <title>📔 巴猪日记</title>
+  <link rel="stylesheet" href="design-system.css" />
+  <link rel="stylesheet" href="diary.css" />
+</head>
+<body>
+<canvas id="canvas-bg"></canvas>
+
+<!-- 角落装饰 -->
+<div class="corner-deco" aria-hidden="true">
+  <svg class="deco deco-tl" viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg">
+    <g opacity="0.15"><path d="M10,140 C20,80 70,30 130,10 C100,50 60,90 10,140Z" fill="#8B6A30"/>
+    <path d="M5,110 C15,65 50,25 100,8 C75,40 40,75 5,110Z" fill="#A07838" opacity="0.8"/>
+    <path d="M2,80 C10,50 35,20 70,5 C50,28 25,55 2,80Z" fill="#C4956A" opacity="0.6"/></g>
+  </svg>
+  <svg class="deco deco-tr" viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg">
+    <g opacity="0.16"><path d="M150,140 C140,80 90,30 30,10 C60,50 100,90 150,140Z" fill="#8B6A30"/>
+    <circle cx="118" cy="28" r="20" fill="#E8901A" opacity="0.70"/>
+    <ellipse cx="111" cy="20" rx="6" ry="4.5" fill="white" opacity="0.22" transform="rotate(-20,111,20)"/>
+    <line x1="118" y1="8" x2="118" y2="0" stroke="#5A6018" stroke-width="2" stroke-linecap="round"/>
+    <path d="M114,8 C110,-2 102,-4 100,4" stroke="#3A7A28" stroke-width="2" fill="none" stroke-linecap="round"/>
+    <path d="M122,8 C126,-2 134,-4 136,4" stroke="#3A7A28" stroke-width="2" fill="none" stroke-linecap="round"/></g>
+  </svg>
+  <svg class="deco deco-br" viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg">
+    <g opacity="0.15"><path d="M150,20 C140,80 90,130 30,150 C60,110 100,70 150,20Z" fill="#8B6A30"/>
+    <path d="M155,50 C145,95 110,135 60,152 C85,120 120,85 155,50Z" fill="#A07838" opacity="0.8"/></g>
+  </svg>
+</div>
+
+<nav class="nav">
+  <a href="index.html" class="nav-logo"><span>🐾</span> 巴猪乐园</a>
+  <div class="nav-links">
+    <a href="index.html" class="nav-link">首页</a>
+    <a href="diary.html" class="nav-link active">📔 日记</a>
+    <a href="shop.html"  class="nav-link">🛍️ 商店</a>
+    <a href="quiz.html"  class="nav-link">🧠 问答</a>
+    <a href="world.html" class="nav-link">🗺️ 世界</a>
+  </div>
+  <div class="nav-coins"><span>🪙</span><span id="navCoins">0</span></div>
+  <button class="nav-menu-btn" id="navMenuBtn">☰</button>
+</nav>
+
+<!-- Hero -->
+<section class="page-hero">
+  <div class="glow-orb" style="width:380px;height:380px;background:radial-gradient(circle,rgba(212,160,96,0.12),transparent 70%);top:-60px;right:0"></div>
+  <div class="container text-center">
+    <div class="badge badge-pink reveal mb-md">📔 每日记录</div>
+    <h1 class="heading-xl gradient-text-2 reveal reveal-delay-1">巴猪日记</h1>
+    <p class="page-hero-desc reveal reveal-delay-2">记录每一天的佛系生活<br>今天它又在摸鱼了 🐟</p>
+  </div>
+</section>
+
+<!-- 写日记 -->
+<section class="write-section">
+  <div class="container">
+    <div class="write-card reveal">
+      <div class="write-header">
+        <span class="write-title">✏️ 替巴猪写今天的日记</span>
+        <span class="write-date" id="writeDate"></span>
+      </div>
+      <!-- 心情选择 -->
+      <div class="mood-row">
+        <span class="mood-label-text">今天心情：</span>
+        <div class="mood-picker" id="moodPicker">
+          <button class="mood-opt selected" data-mood="😌" title="平静">😌</button>
+          <button class="mood-opt" data-mood="😄" title="开心">😄</button>
+          <button class="mood-opt" data-mood="😴" title="困困">😴</button>
+          <button class="mood-opt" data-mood="😋" title="吃饱">😋</button>
+          <button class="mood-opt" data-mood="🥺" title="撒娇">🥺</button>
+          <button class="mood-opt" data-mood="🤩" title="兴奋">🤩</button>
+        </div>
+      </div>
+      <textarea class="diary-textarea" id="diaryInput" placeholder="今天巴猪在河边晒了一整个下午的太阳..."></textarea>
+      <div class="write-footer">
+        <span class="char-count"><span id="charCount">0</span> 字</span>
+        <button class="btn btn-primary" id="submitDiary">发布日记 📝</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 时间轴日记 -->
+<section class="timeline-section">
+  <div class="container">
+    <!-- 筛选栏 -->
+    <div class="diary-filter" id="diaryFilter">
+      <button class="filter-btn active" data-mood="all">全部</button>
+      <button class="filter-btn" data-mood="😌">😌 平静</button>
+      <button class="filter-btn" data-mood="😄">😄 开心</button>
+      <button class="filter-btn" data-mood="😴">😴 困困</button>
+      <button class="filter-btn" data-mood="😋">😋 吃饱</button>
+      <button class="filter-btn" data-mood="🥺">🥺 撒娇</button>
+      <button class="filter-btn" data-mood="🤩">🤩 兴奋</button>
+    </div>
+    <div class="timeline" id="timeline"></div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="footer-links">
+    <a href="index.html">首页</a><a href="diary.html">日记</a>
+    <a href="shop.html">商店</a><a href="quiz.html">问答</a><a href="world.html">世界</a>
+  </div>
+  <p class="footer-copy mt-md">🐾 巴猪乐园 · 愿你每天都像巴猪一样快乐</p>
+</footer>
+
+<script src="core.js"></script>
+<script src="diary.js"></script>
+</body>
+</html>

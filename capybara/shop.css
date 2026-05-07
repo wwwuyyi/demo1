@@ -1,0 +1,97 @@
+/* ── 商店页 v3.0 ── */
+.page-hero {
+  position:relative; z-index:1;
+  padding:130px 0 70px; overflow:hidden;
+  background: linear-gradient(160deg, var(--bg) 0%, var(--bg-2) 100%);
+}
+.page-hero-desc { color:var(--text-2); font-size:1rem; line-height:1.7; margin-top:var(--sp-3); }
+
+.shop-main { position:relative; z-index:1; padding:var(--sp-8) 0 var(--sp-9); }
+
+.shop-top {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: var(--sp-4);
+  align-items: stretch;
+  margin-bottom: var(--sp-6);
+}
+@media(max-width:600px){ .shop-top { grid-template-columns:1fr; } }
+
+.coins-display {
+  display: flex; align-items: center; gap: var(--sp-4);
+  padding: var(--sp-5) var(--sp-6);
+  background: var(--surface); border: 1.5px solid rgba(232,184,64,0.25);
+  border-radius: var(--r-xl); box-shadow: var(--shadow-sm);
+  min-height: 0;
+}
+.coins-icon { font-size: 2rem; flex-shrink: 0; }
+.coins-label { font-size: 0.75rem; color: var(--text-3); font-weight: 700; }
+.coins-value { font-size: 2.2rem; font-weight: 900; color: #a07010; line-height: 1; }
+
+/* 巴猪预览 — 横向紧凑版 */
+.preview-wrap {
+  display: flex; align-items: center; gap: var(--sp-4);
+  padding: var(--sp-4) var(--sp-5);
+  background: var(--surface); border: 1.5px solid var(--border);
+  border-radius: var(--r-xl); box-shadow: var(--shadow-sm);
+  white-space: nowrap;
+}
+.preview-label { font-size: 0.75rem; color: var(--text-4); font-weight: 700; writing-mode: vertical-rl; }
+.preview-capy {
+  position: relative; width: 100px; height: 100px; flex-shrink: 0;
+}
+.preview-capy svg { width: 100px; height: 100px; overflow: visible; }
+.preview-capy #previewItem {
+  position: absolute; top: -6px; left: 50%;
+  transform: translateX(-50%);
+  font-size: 1.3rem; pointer-events: none;
+  transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1);
+}
+.preview-name { font-size: 0.82rem; font-weight: 700; color: var(--text-2); }
+
+/* 商品网格 — 固定4列，8件商品 = 2行×4列，完全对称 */
+.shop-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--sp-4);
+}
+@media(max-width: 800px) { .shop-grid { grid-template-columns: repeat(2, 1fr); } }
+@media(max-width: 480px) { .shop-grid { grid-template-columns: repeat(2, 1fr); gap: var(--sp-3); } }
+.shop-card {
+  position:relative; background:var(--surface);
+  border:1.5px solid var(--border); border-radius:var(--r-xl);
+  padding:var(--sp-6) var(--sp-4); text-align:center;
+  box-shadow:var(--shadow-xs);
+  transition: transform var(--t-base) var(--ease-spring),
+              box-shadow var(--t-base), border-color var(--t-base);
+}
+.shop-card:hover { transform:translateY(-5px); box-shadow:var(--shadow-lg); border-color:var(--border-2); }
+.shop-card.owned { border-color:rgba(142,196,160,0.4); background:rgba(240,250,244,0.8); }
+.shop-card-emoji { font-size:3rem; margin-bottom:var(--sp-3); display:block; }
+.shop-card-name  { font-size:0.88rem; font-weight:900; color:var(--text-1); margin-bottom:var(--sp-2); }
+.shop-card-price { font-size:0.82rem; font-weight:700; color:#a07010; margin-bottom:var(--sp-4); }
+.shop-card .btn  { width:100%; justify-content:center; padding:8px 14px; font-size:0.82rem; }
+.owned-tag {
+  display:inline-flex; align-items:center; gap:3px;
+  padding:5px 12px; background:#edf7f0;
+  border:1px solid rgba(142,196,160,0.5); border-radius:var(--r-full);
+  font-size:0.78rem; font-weight:800; color:#407050;
+}
+
+/* 衣橱 */
+.wardrobe-section {
+  padding:var(--sp-6); background:var(--surface);
+  border:1.5px solid var(--border); border-radius:var(--r-xl);
+  box-shadow:var(--shadow-sm);
+}
+.wardrobe-title { font-size:0.95rem; font-weight:900; color:var(--brown-500); margin-bottom:var(--sp-5); }
+.wardrobe-grid { display:flex; gap:var(--sp-3); flex-wrap:wrap; }
+.wardrobe-empty { font-size:0.82rem; color:var(--text-4); }
+.wardrobe-item {
+  font-size:1.9rem; background:var(--bg-2);
+  border:2px solid transparent; border-radius:var(--r-lg);
+  padding:var(--sp-3); cursor:pointer;
+  transition:transform var(--t-fast) var(--ease-spring), border-color var(--t-fast);
+}
+.wardrobe-item:hover { transform:scale(1.2); }
+.wardrobe-item.equipped { border-color:var(--brown-300); background:var(--brown-50); }

@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="巴猪知识问答 - 答对每题 +5 🪙，成为真正的巴猪专家！" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧠</text></svg>" />
+  <title>🧠 巴猪知识问答</title>
+  <link rel="stylesheet" href="design-system.css" />
+  <link rel="stylesheet" href="quiz.css" />
+</head>
+<body>
+<canvas id="canvas-bg"></canvas>
+
+<div class="corner-deco" aria-hidden="true">
+  <svg class="deco deco-tl" viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg">
+    <g opacity="0.15"><path d="M10,140 C20,80 70,30 130,10 C100,50 60,90 10,140Z" fill="#8B6A30"/>
+    <path d="M5,110 C15,65 50,25 100,8 C75,40 40,75 5,110Z" fill="#A07838" opacity="0.8"/></g>
+  </svg>
+  <svg class="deco deco-tr" viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg">
+    <g opacity="0.16"><path d="M150,140 C140,80 90,30 30,10 C60,50 100,90 150,140Z" fill="#8B6A30"/>
+    <circle cx="120" cy="30" r="18" fill="#E8901A" opacity="0.68"/>
+    <ellipse cx="113" cy="22" rx="5.5" ry="4" fill="white" opacity="0.22" transform="rotate(-20,113,22)"/>
+    <line x1="120" y1="12" x2="120" y2="4" stroke="#5A6018" stroke-width="2" stroke-linecap="round"/>
+    <path d="M116,12 C112,2 104,0 102,8" stroke="#3A7A28" stroke-width="2" fill="none" stroke-linecap="round"/>
+    <path d="M124,12 C128,2 136,0 138,8" stroke="#3A7A28" stroke-width="2" fill="none" stroke-linecap="round"/></g>
+  </svg>
+  <svg class="deco deco-br" viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg">
+    <g opacity="0.15"><path d="M150,20 C140,80 90,130 30,150 C60,110 100,70 150,20Z" fill="#8B6A30"/>
+    <path d="M155,50 C145,95 110,135 60,152 C85,120 120,85 155,50Z" fill="#A07838" opacity="0.8"/></g>
+  </svg>
+</div>
+
+<nav class="nav">
+  <a href="index.html" class="nav-logo"><span>🐾</span> 巴猪乐园</a>
+  <div class="nav-links">
+    <a href="index.html" class="nav-link">首页</a>
+    <a href="diary.html" class="nav-link">📔 日记</a>
+    <a href="shop.html"  class="nav-link">🛍️ 商店</a>
+    <a href="quiz.html"  class="nav-link active">🧠 问答</a>
+    <a href="world.html" class="nav-link">🗺️ 世界</a>
+  </div>
+  <div class="nav-coins"><span>🪙</span><span id="navCoins">0</span></div>
+  <button class="nav-menu-btn" id="navMenuBtn">☰</button>
+</nav>
+
+<section class="page-hero">
+  <div class="glow-orb" style="width:400px;height:400px;background:radial-gradient(circle,rgba(142,196,160,0.12),transparent 70%);top:-60px;right:0"></div>
+  <div class="container text-center">
+    <div class="badge badge-green reveal mb-md">🧠 知识挑战</div>
+    <h1 class="heading-xl gradient-text-2 reveal reveal-delay-1">巴猪问答</h1>
+    <p class="page-hero-desc reveal reveal-delay-2">答对每题 +5 🪙<br>成为真正的巴猪专家！</p>
+  </div>
+</section>
+
+<section class="quiz-section">
+  <div class="container">
+    <div class="quiz-wrap reveal">
+
+      <!-- 进行中 -->
+      <div id="quizBody">
+        <!-- 顶部信息栏 -->
+        <div class="quiz-topbar">
+          <div class="quiz-progress-text" id="quizProgress">第 1 题 / 共 8 题</div>
+          <div class="quiz-score-live">得分 <span id="liveScore">0</span></div>
+          <div class="quiz-coins-live">🪙 <span id="liveCoins">0</span></div>
+        </div>
+        <div class="quiz-progress-bar">
+          <div class="quiz-progress-fill" id="quizFill" style="width:0%"></div>
+        </div>
+
+        <!-- 题目 -->
+        <div class="quiz-question" id="quizQuestion"></div>
+
+        <!-- 选项 -->
+        <div class="quiz-options" id="quizOptions"></div>
+
+        <!-- 反馈 -->
+        <div class="quiz-feedback" id="quizFeedback"></div>
+
+        <button class="btn btn-primary quiz-next" id="quizNext" style="display:none">
+          下一题 →
+        </button>
+      </div>
+
+      <!-- 结果页 -->
+      <div id="quizResult" style="display:none;text-align:center">
+        <div class="result-emoji" id="resultEmoji">🎉</div>
+        <h2 class="heading-lg mt-md" id="resultTitle">太厉害了！</h2>
+        <div class="result-score mt-md" id="resultScore">8 / 8</div>
+        <p class="result-desc mt-md" id="resultDesc"></p>
+        <div class="result-reward mt-lg" id="resultReward"></div>
+        <div class="result-actions mt-xl">
+          <button class="btn btn-primary" id="retryBtn">再来一次 🔄</button>
+          <a href="shop.html" class="btn btn-soft">去花爱心币 🛍️</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="footer-links">
+    <a href="index.html">首页</a><a href="diary.html">日记</a>
+    <a href="shop.html">商店</a><a href="quiz.html">问答</a><a href="world.html">世界</a>
+  </div>
+  <p class="footer-copy mt-md">🐾 巴猪乐园 · 愿你每天都像巴猪一样快乐</p>
+</footer>
+
+<script src="core.js"></script>
+<script src="quiz.js"></script>
+</body>
+</html>

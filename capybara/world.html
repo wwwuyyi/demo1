@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="巴猪世界 - 探索巴猪的秘密栖息地，发现隐藏宝藏" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🗺️</text></svg>" />
+  <title>🗺️ 巴猪世界</title>
+  <link rel="stylesheet" href="design-system.css" />
+  <link rel="stylesheet" href="world.css" />
+</head>
+<body>
+<canvas id="canvas-bg"></canvas>
+
+<div class="corner-deco" aria-hidden="true">
+  <svg class="deco deco-tl" viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg">
+    <g opacity="0.15"><path d="M10,140 C20,80 70,30 130,10 C100,50 60,90 10,140Z" fill="#8B6A30"/>
+    <path d="M5,110 C15,65 50,25 100,8 C75,40 40,75 5,110Z" fill="#A07838" opacity="0.8"/></g>
+  </svg>
+  <svg class="deco deco-br" viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg">
+    <g opacity="0.15"><path d="M150,20 C140,80 90,130 30,150 C60,110 100,70 150,20Z" fill="#8B6A30"/>
+    <circle cx="30" cy="132" r="18" fill="#E8901A" opacity="0.65"/>
+    <ellipse cx="23" cy="124" rx="5.5" ry="4" fill="white" opacity="0.22" transform="rotate(-20,23,124)"/>
+    <line x1="30" y1="114" x2="30" y2="106" stroke="#5A6018" stroke-width="2" stroke-linecap="round"/>
+    <path d="M26,114 C22,104 14,102 12,110" stroke="#3A7A28" stroke-width="2" fill="none" stroke-linecap="round"/>
+    <path d="M34,114 C38,104 46,102 48,110" stroke="#3A7A28" stroke-width="2" fill="none" stroke-linecap="round"/></g>
+  </svg>
+</div>
+
+<nav class="nav">
+  <a href="index.html" class="nav-logo"><span>🐾</span> 巴猪乐园</a>
+  <div class="nav-links">
+    <a href="index.html" class="nav-link">首页</a>
+    <a href="diary.html" class="nav-link">📔 日记</a>
+    <a href="shop.html"  class="nav-link">🛍️ 商店</a>
+    <a href="quiz.html"  class="nav-link">🧠 问答</a>
+    <a href="world.html" class="nav-link active">🗺️ 世界</a>
+  </div>
+  <div class="nav-coins"><span>🪙</span><span id="navCoins">0</span></div>
+  <button class="nav-menu-btn" id="navMenuBtn">☰</button>
+</nav>
+
+<section class="page-hero">
+  <div class="glow-orb" style="width:500px;height:500px;background:radial-gradient(circle,rgba(142,196,160,0.10),transparent 70%);top:-100px;left:50%;transform:translateX(-50%)"></div>
+  <div class="container text-center">
+    <div class="badge badge-green reveal mb-md">🗺️ 探索地图</div>
+    <h1 class="heading-xl gradient-text-2 reveal reveal-delay-1">巴猪的世界</h1>
+    <p class="page-hero-desc reveal reveal-delay-2">点击地图上的地点，探索巴猪的秘密栖息地<br>发现隐藏宝藏 🎁</p>
+  </div>
+</section>
+
+<!-- 世界地图 -->
+<section class="world-section">
+  <div class="container">
+    <div class="world-map reveal" id="worldMap">
+      <!-- 地图背景装饰 -->
+      <div class="map-bg-deco"></div>
+
+      <!-- 地点标记 -->
+      <div class="map-pin" style="left:18%;top:35%" data-id="river">
+        <div class="pin-dot"></div>
+        <div class="pin-label">🌊 巴猪河</div>
+      </div>
+      <div class="map-pin" style="left:42%;top:20%" data-id="hotspring">
+        <div class="pin-dot"></div>
+        <div class="pin-label">♨️ 温泉谷</div>
+      </div>
+      <div class="map-pin" style="left:65%;top:40%" data-id="grassland">
+        <div class="pin-dot"></div>
+        <div class="pin-label">🌿 大草原</div>
+      </div>
+      <div class="map-pin" style="left:30%;top:65%" data-id="forest">
+        <div class="pin-dot"></div>
+        <div class="pin-label">🌳 神秘森林</div>
+      </div>
+      <div class="map-pin" style="left:72%;top:68%" data-id="village">
+        <div class="pin-dot"></div>
+        <div class="pin-label">🏡 巴猪村</div>
+      </div>
+      <div class="map-pin locked" style="left:50%;top:50%" data-id="secret">
+        <div class="pin-dot"></div>
+        <div class="pin-label">🔒 ???</div>
+      </div>
+
+      <!-- 路径连线 SVG -->
+      <svg class="map-paths" viewBox="0 0 100 100" preserveAspectRatio="none">
+        <path d="M18,35 Q30,28 42,20" stroke="rgba(168,96,48,0.35)" stroke-width="0.8" fill="none" stroke-dasharray="2,2"/>
+        <path d="M42,20 Q54,30 65,40" stroke="rgba(168,96,48,0.35)" stroke-width="0.8" fill="none" stroke-dasharray="2,2"/>
+        <path d="M18,35 Q24,50 30,65" stroke="rgba(168,96,48,0.35)" stroke-width="0.8" fill="none" stroke-dasharray="2,2"/>
+        <path d="M30,65 Q51,67 72,68" stroke="rgba(168,96,48,0.35)" stroke-width="0.8" fill="none" stroke-dasharray="2,2"/>
+        <path d="M65,40 Q68,54 72,68" stroke="rgba(168,96,48,0.35)" stroke-width="0.8" fill="none" stroke-dasharray="2,2"/>
+      </svg>
+    </div>
+
+    <!-- 地点详情弹窗 -->
+    <div class="location-panel" id="locationPanel" style="display:none">
+      <button class="panel-close" id="panelClose">✕</button>
+      <div class="panel-icon" id="panelIcon">🌊</div>
+      <h3 class="panel-title" id="panelTitle">巴猪河</h3>
+      <p class="panel-desc" id="panelDesc"></p>
+      <div class="panel-activity" id="panelActivity"></div>
+      <div class="panel-reward" id="panelReward" style="display:none"></div>
+      <button class="btn btn-primary panel-visit" id="panelVisit">探索这里 🐾</button>
+    </div>
+
+    <!-- 探索记录 -->
+    <div class="explore-log reveal mt-2xl">
+      <h3 class="log-title">📜 探索记录</h3>
+      <div class="log-list" id="logList">
+        <div class="log-empty">还没有探索记录，点击地图上的地点开始吧！</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="footer-links">
+    <a href="index.html">首页</a><a href="diary.html">日记</a>
+    <a href="shop.html">商店</a><a href="quiz.html">问答</a><a href="world.html">世界</a>
+  </div>
+  <p class="footer-copy mt-md">🐾 巴猪乐园 · 愿你每天都像巴猪一样快乐</p>
+</footer>
+
+<script src="core.js"></script>
+<script src="world.js"></script>
+</body>
+</html>
